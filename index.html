@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мой Сервис — ремонт и обслуживание авто в Красноуфимске</title>
+  <meta name="description" content="Онлайн-запись в автосервис: диагностика, ремонт, обслуживание. Быстро, надёжно, по честной цене.">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; connect-src https://formspree.io; frame-src https://yandex.ru; form-action https://formspree.io; base-uri 'none'; upgrade-insecure-requests">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="#hero" class="logo">
+        <span class="logo__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 17h-1a1 1 0 0 1-1-1v-3l2-5a2 2 0 0 1 1.9-1.3h8.2a2 2 0 0 1 1.9 1.3l2 5v3a1 1 0 0 1-1 1h-1"/>
+            <circle cx="7.5" cy="17" r="1.5"/>
+            <circle cx="16.5" cy="17" r="1.5"/>
+            <path d="M9 17h6"/>
+          </svg>
+        </span>
+        <span class="logo__text">Мой&nbsp;Сервис</span>
+      </a>
+
+      <nav class="nav" id="siteNav">
+        <a class="nav__link" href="#services">Услуги</a>
+        <a class="nav__link" href="#booking">Запись</a>
+        <a class="nav__link" href="#contacts">Контакты</a>
+        <a class="nav__link nav__link--phone" href="tel:+79024450231">+7 (902) 445-02-31</a>
+      </nav>
+
+      <button class="burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1 class="hero__title">Ваш автомобиль — наша забота</h1>
+          <p class="hero__subtitle">
+            Диагностика, ремонт и плановое обслуживание любой сложности.
+            Запишитесь онлайн — подберём удобное время и подтвердим в течение 15 минут.
+          </p>
+          <div class="hero__actions">
+            <a href="#booking" class="btn btn--primary">Записаться онлайн</a>
+            <a href="#services" class="btn btn--ghost">Смотреть услуги и цены</a>
+          </div>
+          <ul class="hero__features">
+            <li class="hero__feature">Опытные механики</li>
+            <li class="hero__feature">Гарантия на работы</li>
+            <li class="hero__feature">Запчасти в наличии</li>
+          </ul>
+        </div>
+        <figure class="hero__media">
+          <img src="img/hero-autoservice.jpg" alt="Механик проводит диагностику автомобиля с ноутбуком в сервисе" width="1600" height="1067">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="container">
+        <h2 class="section__title">Услуги и цены</h2>
+        <p class="section__subtitle">Цены указаны ориентировочно — точную стоимость назовём после осмотра.</p>
+        <div class="services" id="servicesGrid"></div>
+      </div>
+    </section>
+
+    <section class="section section--tinted" id="booking">
+      <div class="container booking">
+        <div class="booking__info">
+          <h2 class="section__title">Онлайн-запись</h2>
+          <p class="booking__text">
+            Заполните форму — и мы перезвоним, чтобы подтвердить время.
+            Обычно перезваниваем в течение 15 минут в рабочее время.
+          </p>
+          <ul class="booking__list">
+            <li>Приём заявок: Пн–Пт с 9:00 до 17:00</li>
+            <li>Работы выполняем точно в срок</li>
+            <li>Согласуем цену до начала ремонта</li>
+          </ul>
+        </div>
+
+        <form class="form" id="bookingForm" novalidate>
+          <div class="form__row">
+            <label class="form__field">
+              <span class="form__label">Ваше имя *</span>
+              <input type="text" name="name" class="form__input" placeholder="Иван" autocomplete="name" required>
+              <span class="form__error" data-error-for="name"></span>
+            </label>
+            <label class="form__field">
+              <span class="form__label">Телефон *</span>
+              <input type="tel" name="phone" class="form__input" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>
+              <span class="form__error" data-error-for="phone"></span>
+            </label>
+          </div>
+
+          <div class="form__row">
+            <label class="form__field">
+              <span class="form__label">Услуга *</span>
+              <select name="service" class="form__input form__input--select" required>
+                <option value="">Выберите услугу</option>
+              </select>
+              <span class="form__error" data-error-for="service"></span>
+            </label>
+            <div class="form__row-inner">
+              <label class="form__field">
+                <span class="form__label">Дата</span>
+                <input type="date" name="date" class="form__input">
+                <span class="form__error" data-error-for="date"></span>
+              </label>
+              <label class="form__field">
+                <span class="form__label">Время</span>
+                <input type="time" name="time" class="form__input" min="09:00" max="17:00">
+                <span class="form__error" data-error-for="time"></span>
+              </label>
+            </div>
+          </div>
+
+          <label class="form__field">
+            <span class="form__label">Комментарий</span>
+            <textarea name="comment" class="form__input form__input--textarea" rows="3"
+              placeholder="Марка и модель авто, что беспокоит"></textarea>
+          </label>
+
+          <button type="submit" class="btn btn--primary form__submit">Отправить заявку</button>
+          <p class="form__note">Отправляя заявку, вы соглашаетесь на обработку персональных данных.</p>
+
+          <div class="form__success" id="formSuccess" hidden>
+            <strong>Заявка отправлена!</strong>
+            Мы перезвоним вам в ближайшее время для подтверждения записи.
+          </div>
+
+          <div class="form__fail" id="formFail" hidden>
+            <strong>Не получилось отправить заявку.</strong>
+            Позвоните нам: <a href="tel:+79024450231">+7 (902) 445-02-31</a>
+          </div>
+
+          <input type="text" name="_gotcha" class="form__gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="contacts">
+      <div class="container">
+        <h2 class="section__title">Контакты</h2>
+        <div class="contacts">
+          <ul class="contacts__list">
+            <li class="contacts__item">
+              <span class="contacts__label">Адрес</span>
+              <a class="contacts__value" href="https://yandex.ru/maps/?text=Красноуфимск,+Шапошникова,+35" target="_blank" rel="noopener">г. Красноуфимск, ул. Шапошникова, д. 35</a>
+            </li>
+            <li class="contacts__item">
+              <span class="contacts__label">Телефон</span>
+              <a class="contacts__value" href="tel:+79024450231">+7 (902) 445-02-31</a>
+            </li>
+            <li class="contacts__item">
+              <span class="contacts__label">Часы работы</span>
+              <span class="contacts__value">Пн–Пт: 9:00–17:00, Сб–Вс: выходные</span>
+            </li>
+            <li class="contacts__item">
+              <span class="contacts__label">Email</span>
+              <a class="contacts__value" href="mailto:07002026@mail.ru">07002026@mail.ru</a>
+            </li>
+          </ul>
+          <div class="map">
+            <iframe class="map__frame" title="Карта — г. Красноуфимск, ул. Шапошникова, 35" src="https://yandex.ru/map-widget/v1/?text=Красноуфимск,+Шапошникова,+35&z=17" loading="lazy" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <span class="site-footer__name">Мой Сервис</span>
+      <span class="site-footer__copy">© 2026. Сайт-визитка автосервиса.</span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
