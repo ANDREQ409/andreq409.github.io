@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+  <!-- ============================================================
+       ДАННЫЕ КЛИЕНТА ДЛЯ ПОИСКОВИКОВ — ПРИ НОВОМ САЙТЕ МЕНЯТЬ ЗДЕСЬ
+       (остальные данные клиента — в файле config.js)
+       ============================================================ -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Мой Сервис — автосервис в Красноуфимске: ремонт и обслуживание авто</title>
@@ -72,7 +76,7 @@
         <a class="nav__link" href="#services">Услуги</a>
         <a class="nav__link" href="#booking">Запись</a>
         <a class="nav__link" href="#contacts">Контакты</a>
-        <a class="nav__link nav__link--phone" href="tel:+79024450231">+7 (902) 445-02-31</a>
+        <a class="nav__link nav__link--phone" id="navPhone" href="#"></a>
       </nav>
 
       <button class="burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
@@ -122,11 +126,7 @@
             Заполните форму — и мы перезвоним, чтобы подтвердить время.
             Обычно перезваниваем в течение 15 минут в рабочее время.
           </p>
-          <ul class="booking__list">
-            <li>Приём заявок: Пн–Пт с 9:00 до 17:00</li>
-            <li>Работы выполняем точно в срок</li>
-            <li>Согласуем цену до начала ремонта</li>
-          </ul>
+          <ul class="booking__list" id="bookingPoints"></ul>
         </div>
 
         <form class="form" id="bookingForm" novalidate>
@@ -193,26 +193,9 @@
       <div class="container">
         <h2 class="section__title">Контакты</h2>
         <div class="contacts">
-          <ul class="contacts__list">
-            <li class="contacts__item">
-              <span class="contacts__label">Адрес</span>
-              <a class="contacts__value" href="https://yandex.ru/maps/?text=Красноуфимск,+Шапошникова,+35" target="_blank" rel="noopener">г. Красноуфимск, ул. Шапошникова, д. 35</a>
-            </li>
-            <li class="contacts__item">
-              <span class="contacts__label">Телефон</span>
-              <a class="contacts__value" href="tel:+79024450231">+7 (902) 445-02-31</a>
-            </li>
-            <li class="contacts__item">
-              <span class="contacts__label">Часы работы</span>
-              <span class="contacts__value">Пн–Пт: 9:00–17:00, Сб–Вс: выходные</span>
-            </li>
-            <li class="contacts__item">
-              <span class="contacts__label">Email</span>
-              <a class="contacts__value" href="mailto:07002026@mail.ru">07002026@mail.ru</a>
-            </li>
-          </ul>
+          <ul class="contacts__list" id="contactsList"></ul>
           <div class="map">
-            <iframe class="map__frame" title="Карта — г. Красноуфимск, ул. Шапошникова, 35" src="https://yandex.ru/map-widget/v1/?text=Красноуфимск,+Шапошникова,+35&z=17" loading="lazy" allowfullscreen></iframe>
+            <iframe class="map__frame" id="mapFrame" title="Карта — как нас найти" loading="lazy" allowfullscreen></iframe>
           </div>
         </div>
       </div>
@@ -221,11 +204,12 @@
 
   <footer class="site-footer">
     <div class="container site-footer__inner">
-      <span class="site-footer__name">Мой Сервис</span>
+      <span class="site-footer__name" id="footerName">Мой Сервис</span>
       <span class="site-footer__copy">© 2026. Сайт-визитка автосервиса.</span>
     </div>
   </footer>
 
+  <script src="config.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

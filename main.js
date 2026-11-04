@@ -1,47 +1,4 @@
-const services = [
-  {
-    id: "diagnostika",
-    title: "Диагностика",
-    description: "Полная проверка автомобиля: двигатель, электроника, подвеска. Выявим проблему до ремонта.",
-    price: "от 1 000 ₽",
-    duration: "40–60 мин"
-  },
-  {
-    id: "maslo",
-    title: "Замена масла и фильтров",
-    description: "Моторное масло, масляный, воздушный и салонный фильтры. Подберём жидкость под ваш авто.",
-    price: "от 800 ₽",
-    duration: "30 мин"
-  },
-  {
-    id: "tormoza",
-    title: "Ремонт тормозной системы",
-    description: "Замена колодок, дисков, тормозной жидкости. Проверим и отрегулируем всю систему.",
-    price: "от 1 500 ₽",
-    duration: "1–2 часа"
-  },
-  {
-    id: "podveska",
-    title: "Ремонт подвески",
-    description: "Амортизаторы, рычаги, сайлентблоки, ступичные подшипники. Вернём комфорт и управляемость.",
-    price: "от 2 000 ₽",
-    duration: "от 1 часа"
-  },
-  {
-    id: "razval-shozhdenie",
-    title: "Развал-схождение",
-    description: "3D-стенд точной настройки углов колёс. Ровный руль и меньше износ шин.",
-    price: "от 2 500 ₽",
-    duration: "40 мин"
-  },
-  {
-    id: "shinomontazh",
-    title: "Шиномонтаж",
-    description: "Замена, балансировка, ремонт проколов. Комплект в четыре руки за минимальное время.",
-    price: "от 2 000 ₽",
-    duration: "40–60 мин"
-  }
-];
+const cfg = SITE_CONFIG;
 
 const grid = document.getElementById("servicesGrid");
 const serviceSelect = document.querySelector('select[name="service"]');
@@ -54,10 +11,53 @@ const nav = document.getElementById("siteNav");
 const dateInput = form.querySelector('input[name="date"]');
 const timeInput = form.querySelector('input[name="time"]');
 
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbggpebq";
+function applyTheme() {
+  const root = document.documentElement.style;
+  root.setProperty("--color-primary", cfg.theme.primary);
+  root.setProperty("--color-primary-dark", cfg.theme.primaryDark);
+  root.setProperty("--color-accent", cfg.theme.accent);
+  root.setProperty("--color-accent-hover", cfg.theme.accentHover);
+}
+
+function fillContacts() {
+  const navPhone = document.getElementById("navPhone");
+  navPhone.textContent = cfg.phoneDisplay;
+  navPhone.href = cfg.phoneHref;
+
+  document.getElementById("footerName").textContent = cfg.name;
+
+  const mapLink = `https://yandex.ru/maps/?text=${encodeURIComponent(cfg.mapQuery)}`;
+  document.getElementById("mapFrame").src =
+    `https://yandex.ru/map-widget/v1/?text=${encodeURIComponent(cfg.mapQuery)}&z=17`;
+
+  const items = [
+    { label: "Адрес", value: cfg.address, href: mapLink, external: true },
+    { label: "Телефон", value: cfg.phoneDisplay, href: cfg.phoneHref },
+    { label: "Часы работы", value: cfg.hoursDisplay },
+    { label: "Email", value: cfg.email, href: `mailto:${cfg.email}` }
+  ];
+
+  const list = document.getElementById("contactsList");
+  list.innerHTML = items.map(item => {
+    const inner = item.href
+      ? `<a class="contacts__value" href="${item.href}"${item.external ? ' target="_blank" rel="noopener"' : ""}>${item.value}</a>`
+      : `<span class="contacts__value">${item.value}</span>`;
+    return `
+      <li class="contacts__item">
+        <span class="contacts__label">${item.label}</span>
+        ${inner}
+      </li>
+    `;
+  }).join("");
+}
+
+function fillBookingPoints() {
+  const list = document.getElementById("bookingPoints");
+  list.innerHTML = cfg.bookingPoints.map(point => `<li>${point}</li>`).join("");
+}
 
 function renderServices() {
-  grid.innerHTML = services.map(service => `
+  grid.innerHTML = cfg.services.map(service => `
     <article class="service-card">
       <h3 class="service-card__title">${service.title}</h3>
       <p class="service-card__desc">${service.description}</p>
@@ -70,7 +70,7 @@ function renderServices() {
 }
 
 function fillServiceSelect() {
-  services.forEach(service => {
+  cfg.services.forEach(service => {
     const option = document.createElement("option");
     option.value = service.id;
     option.textContent = `${service.title} (${service.price})`;
@@ -112,8 +112,8 @@ function validateForm(data) {
 
   if (data.date) {
     const day = new Date(`${data.date}T00:00:00`).getDay();
-    if (day === 0 || day === 6) {
-      showFieldError("date", "В субботу и воскресенье не работаем — выберите будний день");
+    if (!cfg.workDays.includes(day)) {
+      showFieldError("date", "В эти дни не работаем — выберите рабочий день");
       isValid = false;
     } else {
       showFieldError("date", "");
@@ -124,7 +124,7 @@ function validateForm(data) {
 
   if (data.time) {
     if (data.time < timeInput.min || data.time > timeInput.max) {
-      showFieldError("time", "Принимаем записи с 9:00 до 17:00");
+      showFieldError("time", `Принимаем записи с ${cfg.timeMin} до ${cfg.timeMax}`);
       isValid = false;
     } else {
       showFieldError("time", "");
@@ -169,7 +169,7 @@ async function onFormSubmit(event) {
 
   if (!validateForm(data)) return;
 
-  const serviceTitle = services.find(s => s.id === data.service)?.title || data.service;
+  const serviceTitle = cfg.services.find(s => s.id === data.service)?.title || data.service;
 
   saveBooking({
     ...data,
@@ -184,7 +184,7 @@ async function onFormSubmit(event) {
 
   let sent = false;
   try {
-    const response = await fetch(FORMSPREE_ENDPOINT, {
+    const response = await fetch(cfg.formEndpoint, {
       method: "POST",
       headers: { Accept: "application/json" },
       body: formData
@@ -220,6 +220,11 @@ function onNavLinkClick() {
   burgerBtn.setAttribute("aria-expanded", "false");
 }
 
+function setTimeRange() {
+  timeInput.min = cfg.timeMin;
+  timeInput.max = cfg.timeMax;
+}
+
 function setMinDate() {
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -228,8 +233,12 @@ function setMinDate() {
   dateInput.min = `${yyyy}-${mm}-${dd}`;
 }
 
+applyTheme();
+fillContacts();
+fillBookingPoints();
 renderServices();
 fillServiceSelect();
+setTimeRange();
 setMinDate();
 
 grid.addEventListener("click", onServiceBookClick);
