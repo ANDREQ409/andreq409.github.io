@@ -1,0 +1,8 @@
+AGENTS.md
+first-plan.md
+*.txt
+*.exe
+*.zip
+*_files/
+Thumbs.db
+desktop.ini
