@@ -1,6 +1,7 @@
 AGENTS.md
 first-plan.md
 *.txt
+!robots.txt
 *.exe
 *.zip
 *_files/

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://andreq409.github.io/sitemap.xml
